@@ -19,7 +19,8 @@ connection.connect(function(err) {
     console.log("connected as id " + connection.threadId);
     mainMenu();
 });
-  
+
+//Main command Prompt
 function mainMenu(){
     inquirer.prompt({
       name: "menu",
@@ -35,10 +36,35 @@ function mainMenu(){
         case "View Employees":
           viewEmployees();
           break;
+        case "Update Employees":
+          updateEmployees();
+          break;
+        case "Delete Employee":
+          deleteEmployee();
+          break;
+          default:
+          break;
       }
     })
 }
 
+//Viewing Employees
 function viewEmployees(){
-  
+  connection.query("SELECT * FROM employee", function(err, res){
+    if (err) throw (err);
+    console.log(res);
+    mainMenu();
+  })
+};
+
+//Update Employees
+function updateEmployees(){
+  console.log("update Employees");
+  mainMenu();
+};
+
+//Delete Employee
+function deleteEmployee(){
+  console.log("delete employee");
+  mainMenu();
 };
