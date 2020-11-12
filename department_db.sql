@@ -14,7 +14,7 @@ CREATE TABLE roles (
 id INT NOT NULL AUTO_INCREMENT,
 title VARCHAR(30),
 salary DECIMAL NOT NULL,
-department_id INT,
+department_id INT NOT NULL,
 PRIMARY KEY (id)
 );
 
@@ -34,4 +34,5 @@ INSERT INTO roles (title, salary, department_id)
 VALUES ("Sales","10000","123");
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Jack","White","123","345");
+VALUES ("Jack","White","123","345"),
+("Steven", "Jones","223", "967");
