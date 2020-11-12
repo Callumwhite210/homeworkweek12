@@ -17,13 +17,28 @@ database: "department_db"
 connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
-    afterConnection();
+    mainMenu();
 });
   
-function afterConnection(){
-    connection.query("SELECT * FROM employee", function(err, res){
-      if (err) throw err;
-      console.log(res);
-      connection.end();
-    });
-  };
+function mainMenu(){
+    inquirer.prompt({
+      name: "menu",
+      type: "list",
+      message: "Employee Tracker",
+      choices: [
+        "View Employees",
+        "Update Employees",
+        "Delete Employee"
+      ]
+    }).then(function(data){
+      switch (data.menu){
+        case "View Employees":
+          viewEmployees();
+          break;
+      }
+    })
+}
+
+function viewEmployees(){
+  
+};
