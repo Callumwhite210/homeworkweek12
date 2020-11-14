@@ -69,9 +69,18 @@ function mainMenu(){
 
 //Viewing Employees
 function viewEmployees(){
-  connection.query("SELECT * FROM employee", function(err, res){
+  connection.query("SELECT * FROM employees", function(err, res){
     if (err) throw (err);
-    console.log(res);
+    
+    let contable = [];
+    for (let i = 0; i < res.length; i++){
+      let tableRow = {};
+      tableRow = res[i];
+      contable.push(tableRow);
+    }
+    const table = cTable.getTable(contable);
+    console.log(`\n${table}`);
+
     mainMenu();
   })
 };
@@ -80,7 +89,16 @@ function viewEmployees(){
 function viewDepartment(){
   connection.query("SELECT * FROM department", function(err, res){
     if (err) throw (err);
-    console.log(res);
+    
+    let contable = [];
+    for (let i = 0; i < res.length; i++){
+      let tableRow = {};
+      tableRow = res[i];
+      contable.push(tableRow);
+    }
+    const table = cTable.getTable(contable);
+    console.log(`\n${table}`);
+
     mainMenu();
   })
 };
@@ -89,7 +107,16 @@ function viewDepartment(){
 function viewRoles(){
   connection.query("SELECT * FROM roles", function(err, res){
     if (err) throw (err);
-    console.log(res);
+    
+    let contable = [];
+    for (let i = 0; i < res.length; i++){
+      let tableRow = {};
+      tableRow = res[i];
+      contable.push(tableRow);
+    }
+    const table = cTable.getTable(contable);
+    console.log(`\n${table}`);
+
     mainMenu();
   })
 };
@@ -176,6 +203,6 @@ function addRoles(){
   
 //Delete Employee
 function deleteEmployee(){
-  console.log("delete employee");
+
   mainMenu();
 };
