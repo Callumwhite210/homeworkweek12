@@ -141,7 +141,7 @@ function updateEmployees(){
           return choiceArray;
         }
     }]).then(function(data){
-  })
+    })
   })};
 
 //Adding Departments
@@ -228,5 +228,27 @@ function addRoles(){
   
 //Delete Employee
 function deleteEmployee(){
-  mainMenu();
-}
+  connection.query("SELECT * FROM employees", function(err, res){
+    if (err) throw err;
+    inquirer.prompt([{
+      name: "select",
+      type: "list",
+      message: "Please select employee you would like to delete from the database",
+      choices: function(){
+        var choiceArray = [];
+          for (var i = 0; i < res.length; i++) {
+            choiceArray.push((res[i].first_name));
+          }
+          return choiceArray;
+        }
+    }]).then(function(data){
+      connection.query(`DELETE FROM employees WHERE first_name = '${data.select}'`,
+      function(err, res){
+        if (err) throw err;
+
+        console.log(`${data.select} has been deleted from the database!`);
+
+        mainMenu();
+      })
+    })
+  })};
