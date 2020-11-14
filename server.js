@@ -53,11 +53,13 @@ function mainMenu(){
           break;
         case "Add Employees":
           addEmployees();
+          break;
         case "Add Department":
           addDepartment();
           break;
         case "Add Roles":
           addRoles();
+          break;
         case "Delete Employee":
           deleteEmployee();
           break;
@@ -123,9 +125,24 @@ function viewRoles(){
 
 //Update Employees
 function updateEmployees(){
-  console.log("update Employees");
-  mainMenu();
-};
+  connection.query("SELECT * FROM employees", function(err, res){
+    if (err) throw err;
+
+    let selectedEmployee = res;
+    inquirer.prompt([{
+      name: "select",
+      type: "list",
+      message: "Please select employee you would like to update",
+      choices: function(){
+        var choiceArray = [];
+          for (var i = 0; i < res.length; i++) {
+            choiceArray.push((res[i].first_name)+" "+(res[i].last_name));
+          }
+          return choiceArray;
+        }
+    }]).then(function(data){
+  })
+  })};
 
 //Adding Departments
 function addDepartment(){
@@ -135,20 +152,14 @@ function addDepartment(){
     type: "input" 
     },
   ]).then(function(data){
-    console.log (`${data.name}`);
-    var query = connect.query(
-      "INSTERT INTO department SET ?",
-      [{department_name: data.name}],
-      function(err, res) {
-        if (err) throw err;
+    connection.query(`INSERT INTO department (department_name) VALUES ('${data.departmentName}')`,
+    function(err,res){
+      if (err) throw err;
 
-        console.log(res.affectedRows + "Names Inserted!\n");  
-       
-        //logs query
-        console.log(query.sql);     
-      }
-    );
-    mainMenu();
+      console.log(`${data.departmentName} has been add to the database!`);
+
+      mainMenu();
+    })
   })
 };
 
@@ -166,16 +177,23 @@ function addEmployees(){
     },
     {
     name: "roleId",
-    message: "Instert employees role ID",
+    message: "Instert employees role ID (Number)",
     type: "input"
     },
     {
     name: "managerId",
-    message: "Insert manager ID if any",
+    message: "Insert manager ID if any (Number)",
     type: "input"
     }
   ]).then(function(data){
+    connection.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ('${data.firstName}', '${data.lastName}', '${data.roleId}', '${data.managerId}')`,
+    function(err,res){
+      if (err) throw err;
 
+      console.log(`${data.firstName} ${data.lastName} has been add to the database!`);
+
+      mainMenu();
+    })
   })
 };
 
@@ -193,16 +211,22 @@ function addRoles(){
       },
       {
       name: "departmentId",
-      message: "Insert department ID",
+      message: "Insert department ID (Number)",
       type: "input"
       }
     ]).then(function(data){
-      
-    })
+      connection.query(`INSERT INTO roles (title, salary, department_id) VALUES ('${data.title}', '${data.salary}', '${data.departmentId}')`,
+      function(err,res){
+        if (err) throw err;
+  
+        console.log(`${data.title} has been add to the database!`);
+
+        mainMenu();
+      })
+  })
 };
   
 //Delete Employee
 function deleteEmployee(){
-
   mainMenu();
-};
+}
