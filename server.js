@@ -128,7 +128,6 @@ function updateEmployees(){
   connection.query("SELECT * FROM employees", function(err, res){
     if (err) throw err;
 
-    let selectedEmployee = res;
     inquirer.prompt([{
       name: "select",
       type: "list",
@@ -136,11 +135,25 @@ function updateEmployees(){
       choices: function(){
         var choiceArray = [];
           for (var i = 0; i < res.length; i++) {
-            choiceArray.push((res[i].first_name)+" "+(res[i].last_name));
+            choiceArray.push((res[i].first_name));
           }
           return choiceArray;
         }
-    }]).then(function(data){
+    },
+      {
+        name: "selectRole",
+        message: "Please insert new role ID",
+        type: "input"
+      }
+  ]).then(function(data){
+    connection.query(`UPDATE employees SET role_id='${data.selectRole}' WHERE first_name='${data.select}'`,
+    function(err,res){
+      if (err) throw err;
+
+      console.log(`${data.select} has been updated!`);
+
+      mainMenu();
+    })
     })
   })};
 
