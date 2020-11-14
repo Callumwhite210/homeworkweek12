@@ -7,7 +7,9 @@ From the console you will be able to view all of your employees as well as their
 * Add extra Employees, roles and departments
 * Update Employees roles
 * Delete Employees
+
 ![Demo](./demo.gif)
+
 ## Installation ##
 
 Open the terminal inside the folder with server.js then simply npm install using these commands:
